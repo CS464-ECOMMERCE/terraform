@@ -24,6 +24,6 @@ provider "argocd" {
 provider "kubernetes" {
     config_path     = "~/.kube/config"
     ## To be changed if using cloud
-    config_context  = "gke_cs464-ecommerce_asia-southeast1-a_cluster-1"
+    config_context  = "gke_cs464-ecommerce_asia-southeast1-a_cs464-cluster"
     // config_context  = "minikube"
 }

@@ -69,9 +69,9 @@ resource "argocd_application" "apps" {
       retry {
         limit = "10"
         backoff {
-          # duration     = "1m"
-          # max_duration = "2m"
-          factor       = "5"
+          duration     = "2m"
+          max_duration = "3m"
+          factor       = "2"
         }
       }
     }
