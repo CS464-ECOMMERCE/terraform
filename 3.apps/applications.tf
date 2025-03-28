@@ -41,7 +41,7 @@ resource "argocd_application" "reflector" {
 
 # Deploy all apps
 resource "argocd_application" "apps" {
-  for_each = { for repo in var.repo_list: repo.name => repo }
+  for_each = argocd_repository.private
   metadata {
     name      = each.value.name
     namespace = "argocd"
@@ -54,8 +54,8 @@ resource "argocd_application" "apps" {
     }
 
     source {
-      repo_url = var.repository_url
-      path     = each.value.path
+      repo_url = each.value.repo
+      path     = "helm"
     }
 
 
@@ -67,10 +67,10 @@ resource "argocd_application" "apps" {
       sync_options = ["CreateNamespace=true"]
 
       retry {
-        limit = "5"
+        limit = "10"
         backoff {
-          // duration     = "1m"
-          // max_duration = "2m"
+          # duration     = "1m"
+          # max_duration = "2m"
           factor       = "5"
         }
       }

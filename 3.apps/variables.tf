@@ -12,11 +12,6 @@ variable "repo_list" {
     type = list(any)
 }
 
-variable "repository_url" {
-    type = string
-    description = "Repository URL Link for ArgoCD apps"
-}
-
 variable "argocd_server_url" {
     type = string
     description = "ArgoCD Server URL Link"
