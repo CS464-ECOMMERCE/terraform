@@ -19,18 +19,18 @@ resource "google_storage_bucket_iam_policy" "backend-iam-owner" {
     depends_on = [google_storage_bucket.app-bucket]
 }
 
-resource "google_service_account_key" "backend_account_key" {
+resource "google_service_account_key" "backend-account-key" {
   service_account_id = google_service_account.backend-account.name
 }
 
-# Output the key file path
-output "backend_account_key_file" {
-  value     = "backend-sa-key.json"
-  sensitive = true
+# Save the key to a local file
+resource "local_file" "backend-account-key-file" {
+  content  = base64decode(google_service_account_key.backend-account-key.private_key)
+  filename = "backend-sa-key.json"
 }
 
-# Save the key to a local file
-resource "local_file" "backend_account_key_file" {
-  content  = base64decode(google_service_account_key.backend_account_key.private_key)
-  filename = "backend-sa-key.json"
+# Output the key file path
+output "backend-account-key-file" {
+  value     = "Secret key to access bucket exported to backend-sa-key.json"
+  sensitive = true
 }
