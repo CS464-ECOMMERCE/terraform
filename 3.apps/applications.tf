@@ -60,7 +60,7 @@ resource "argocd_application" "apps" {
   spec {
     destination {
         server    = "https://kubernetes.default.svc"
-        namespace = "apps"
+        namespace = "ecommerce"
     }
 
     source {
