@@ -10,11 +10,11 @@ resource "kubernetes_secret" "env-secret" {
   type = "Opaque"
 
   data = {
-      ".env" = <<EOT
+        ".env" = <<EOT
 ${trimspace(file(".env"))}
 APP_BUCKET_NAME=${var.app_bucket_name}
-APP_BUCKET_KEY=${trimspace(file("backend-sa-key.json"))}
 EOT
+        "backend-sa-key.json" = file("backend-sa-key.json")
   }
   depends_on = [argocd_application.reflector, local_file.backend-account-key-file]
 }
