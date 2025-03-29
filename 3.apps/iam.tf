@@ -31,6 +31,6 @@ output "backend_account_key_file" {
 
 # Save the key to a local file
 resource "local_file" "backend_account_key_file" {
-  content  = google_service_account_key.backend_account_key.private_key
+  content  = base64decode(google_service_account_key.backend_account_key.private_key)
   filename = "backend-sa-key.json"
 }
