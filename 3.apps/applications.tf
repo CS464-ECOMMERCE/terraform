@@ -38,6 +38,16 @@ resource "argocd_application" "reflector" {
   }
 }
 
+resource "google_storage_bucket" "app-bucket" {
+    name            = var.app_bucket_name
+    location        = var.gcp_region
+    storage_class   = "STANDARD"
+
+    versioning {
+        enabled = true
+    }
+}
+
 
 # Deploy all apps
 resource "argocd_application" "apps" {

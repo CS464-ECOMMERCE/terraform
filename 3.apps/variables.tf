@@ -21,3 +21,8 @@ variable "argocd_password" {
     type = string
     description = "Secret"
 }
+
+variable "app_bucket_name" {
+    type = string
+    description = "App Bucket Name"
+}
