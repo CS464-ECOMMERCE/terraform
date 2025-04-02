@@ -19,6 +19,14 @@ resource "google_storage_bucket_iam_policy" "backend-iam-owner" {
     depends_on = [google_storage_bucket.app-bucket]
 }
 
+# Grant public read access to all objects in the bucket
+resource "google_storage_bucket_iam_member" "public_read" {
+    bucket  = google_storage_bucket.app-bucket.name
+    role    = "roles/storage.objectViewer"
+    member  = "allUsers"
+    depends_on = [google_storage_bucket.app-bucket]
+}
+
 resource "google_service_account_key" "backend-account-key" {
   service_account_id = google_service_account.backend-account.name
 }

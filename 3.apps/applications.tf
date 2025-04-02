@@ -46,6 +46,13 @@ resource "google_storage_bucket" "app-bucket" {
     versioning {
         enabled = true
     }
+
+    cors {
+      origin          = ["*"]  # Change this to a specific origin for security
+      method          = ["GET", "POST", "PUT", "DELETE"]
+      response_header = ["Content-Type", "Authorization"]
+      max_age_seconds = 3600
+    }
 }
 
 
