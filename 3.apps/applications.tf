@@ -58,7 +58,7 @@ resource "google_storage_bucket" "app-bucket" {
 
 # Deploy all apps
 resource "argocd_application" "apps" {
-  for_each = argocd_repository.private
+  for_each = { for app in var.app_list : app.name => app }
   metadata {
     name      = each.value.name
     namespace = "argocd"
@@ -71,8 +71,8 @@ resource "argocd_application" "apps" {
     }
 
     source {
-      repo_url = each.value.repo
-      path     = "helm"
+      repo_url = var.chart_repo
+      path     = each.value.path
     }
 
 

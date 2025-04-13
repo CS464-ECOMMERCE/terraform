@@ -8,7 +8,12 @@ variable "gcp_region" {
     description = "The GCP region in which to deploy"
 }
 
-variable "repo_list" {
+variable "chart_repo" {
+    type = string
+    description = "The Git repository URL for the Helm charts"
+}
+
+variable "app_list" {
     type = list(any)
 }
 

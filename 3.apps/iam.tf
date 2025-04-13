@@ -3,27 +3,21 @@ resource "google_service_account" "backend-account" {
     display_name = "Service account for backend to interact with GCS"
 }
 
-data "google_iam_policy" "storage-admin" {
-    binding {
-        role = "roles/storage.admin"
-        members = [
-            "serviceAccount:${google_service_account.backend-account.email}",
-            "projectOwner:cs464-ecommerce",
-        ]
-    }
-}
-
-resource "google_storage_bucket_iam_policy" "backend-iam-owner" {
-    bucket   = var.app_bucket_name
-    policy_data = data.google_iam_policy.storage-admin.policy_data
-    depends_on = [google_storage_bucket.app-bucket]
+# Grant the service account the Storage Admin role
+resource "google_storage_bucket_iam_binding" "storage-admin" {
+    bucket  = var.app_bucket_name
+    role    = "roles/storage.admin"
+    members = [
+      "serviceAccount:${google_service_account.backend-account.email}",
+      "projectOwner:cs464-ecommerce"
+    ]
 }
 
 # Grant public read access to all objects in the bucket
-resource "google_storage_bucket_iam_member" "public_read" {
-    bucket  = google_storage_bucket.app-bucket.name
-    role    = "roles/storage.objectViewer"
-    member  = "allUsers"
+resource "google_storage_bucket_iam_binding" "public_read" {
+    bucket     = var.app_bucket_name
+    role       = "roles/storage.objectViewer"
+    members    = ["allUsers"]
     depends_on = [google_storage_bucket.app-bucket]
 }
 
